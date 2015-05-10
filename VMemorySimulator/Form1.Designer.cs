@@ -33,12 +33,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.t_pm = new System.Windows.Forms.TextBox();
+            this.t_la = new System.Windows.Forms.TextBox();
+            this.t_page = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.t_sm = new System.Windows.Forms.TextBox();
+            this.t_pi = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -50,12 +50,12 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.listScript = new System.Windows.Forms.ListView();
             this.Process = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Command = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -97,32 +97,35 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(199, 142);
+            this.label5.Location = new System.Drawing.Point(199, 141);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "pages";
             // 
-            // textBox1
+            // t_pm
             // 
-            this.textBox1.Location = new System.Drawing.Point(133, 139);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 20);
-            this.textBox1.TabIndex = 5;
+            this.t_pm.Location = new System.Drawing.Point(133, 139);
+            this.t_pm.Name = "t_pm";
+            this.t_pm.Size = new System.Drawing.Size(60, 20);
+            this.t_pm.TabIndex = 5;
+            this.t_pm.Text = "20";
             // 
-            // textBox2
+            // t_la
             // 
-            this.textBox2.Location = new System.Drawing.Point(15, 178);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(60, 20);
-            this.textBox2.TabIndex = 6;
+            this.t_la.Location = new System.Drawing.Point(15, 178);
+            this.t_la.Name = "t_la";
+            this.t_la.Size = new System.Drawing.Size(60, 20);
+            this.t_la.TabIndex = 6;
+            this.t_la.Text = "5";
             // 
-            // textBox3
+            // t_page
             // 
-            this.textBox3.Location = new System.Drawing.Point(15, 139);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(60, 20);
-            this.textBox3.TabIndex = 7;
+            this.t_page.Location = new System.Drawing.Point(15, 139);
+            this.t_page.Name = "t_page";
+            this.t_page.Size = new System.Drawing.Size(60, 20);
+            this.t_page.TabIndex = 7;
+            this.t_page.Text = "50";
             // 
             // label6
             // 
@@ -133,19 +136,21 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Secondary Memory (Max)";
             // 
-            // textBox4
+            // t_sm
             // 
-            this.textBox4.Location = new System.Drawing.Point(133, 178);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(60, 20);
-            this.textBox4.TabIndex = 9;
+            this.t_sm.Location = new System.Drawing.Point(133, 178);
+            this.t_sm.Name = "t_sm";
+            this.t_sm.Size = new System.Drawing.Size(60, 20);
+            this.t_sm.TabIndex = 9;
+            this.t_sm.Text = "40";
             // 
-            // textBox5
+            // t_pi
             // 
-            this.textBox5.Location = new System.Drawing.Point(15, 217);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(60, 20);
-            this.textBox5.TabIndex = 11;
+            this.t_pi.Location = new System.Drawing.Point(15, 217);
+            this.t_pi.Name = "t_pi";
+            this.t_pi.Size = new System.Drawing.Size(60, 20);
+            this.t_pi.TabIndex = 11;
+            this.t_pi.Text = "4";
             // 
             // label7
             // 
@@ -219,6 +224,7 @@
             this.button2.TabIndex = 18;
             this.button2.Text = "Run";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -235,9 +241,9 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(12, 259);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(86, 13);
+            this.label11.Size = new System.Drawing.Size(131, 13);
             this.label11.TabIndex = 22;
-            this.label11.Text = "Memory Block";
+            this.label11.Text = "Primary Memory Block";
             // 
             // label12
             // 
@@ -249,30 +255,18 @@
             this.label12.TabIndex = 23;
             this.label12.Text = "Script Execution";
             // 
-            // listView1
+            // listScript
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listScript.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Process,
             this.Command,
             this.Address});
-            this.listView1.Location = new System.Drawing.Point(278, 25);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(145, 211);
-            this.listView1.TabIndex = 20;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // listView2
-            // 
-            this.listView2.Location = new System.Drawing.Point(15, 275);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(408, 102);
-            this.listView2.TabIndex = 21;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.listScript.Location = new System.Drawing.Point(278, 25);
+            this.listScript.Name = "listScript";
+            this.listScript.Size = new System.Drawing.Size(145, 211);
+            this.listScript.TabIndex = 20;
+            this.listScript.UseCompatibleStateImageBehavior = false;
+            this.listScript.View = System.Windows.Forms.View.Details;
             // 
             // Process
             // 
@@ -288,15 +282,28 @@
             // 
             this.Address.Text = "Address";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(199, 181);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(36, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "pages";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 393);
+            this.ClientSize = new System.Drawing.Size(434, 418);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.listView2);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listScript);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -305,13 +312,13 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.t_pi);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.t_sm);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.t_page);
+            this.Controls.Add(this.t_la);
+            this.Controls.Add(this.t_pm);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -331,12 +338,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox t_pm;
+        private System.Windows.Forms.TextBox t_la;
+        private System.Windows.Forms.TextBox t_page;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox t_sm;
+        private System.Windows.Forms.TextBox t_pi;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label8;
@@ -348,12 +355,12 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ListView listScript;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ColumnHeader Process;
         private System.Windows.Forms.ColumnHeader Command;
         private System.Windows.Forms.ColumnHeader Address;
+        private System.Windows.Forms.Label label13;
     }
 }
 

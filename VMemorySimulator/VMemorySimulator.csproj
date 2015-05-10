@@ -50,8 +50,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="model\LRU.cs" />
+    <Compile Include="model\Memory.cs" />
+    <Compile Include="model\MemoryManager.cs" />
+    <Compile Include="model\Page.cs" />
+    <Compile Include="model\PageTable.cs" />
+    <Compile Include="model\Process.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="view\MemoryView.cs">
+      <SubType>component</SubType>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

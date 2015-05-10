@@ -25,3 +25,12 @@ C:\Projects\UFF\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.csp
 C:\Projects\UFF\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.Form1.resources
 C:\Projects\UFF\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.Properties.Resources.resources
 C:\Projects\UFF\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.csproj.GenerateResource.Cache
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\bin\Debug\VMemorySimulator.exe.config
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.exe
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.pdb
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\bin\Debug\VMemorySimulator.exe
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\bin\Debug\VMemorySimulator.pdb
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.csprojResolveAssemblyReference.cache
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.Form1.resources
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.Properties.Resources.resources
+C:\Users\t-igan\Source\Repos\VMemorySimulator\VMemorySimulator\obj\Debug\VMemorySimulator.csproj.GenerateResource.Cache
