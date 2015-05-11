@@ -56,6 +56,12 @@
             this.Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.memoryView2 = new VMemorySimulator.view.MemoryView();
+            this.memoryView1 = new VMemorySimulator.view.MemoryView();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -295,11 +301,60 @@
             this.label13.TabIndex = 24;
             this.label13.Text = "pages";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(12, 379);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(150, 13);
+            this.label14.TabIndex = 26;
+            this.label14.Text = "Secondary Memory Block";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(15, 508);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(410, 167);
+            this.tabControl1.TabIndex = 28;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(402, 141);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "P1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // memoryView2
+            // 
+            this.memoryView2.BackColor = System.Drawing.Color.White;
+            this.memoryView2.Location = new System.Drawing.Point(15, 396);
+            this.memoryView2.Name = "memoryView2";
+            this.memoryView2.Size = new System.Drawing.Size(408, 100);
+            this.memoryView2.TabIndex = 27;
+            // 
+            // memoryView1
+            // 
+            this.memoryView1.BackColor = System.Drawing.Color.White;
+            this.memoryView1.Location = new System.Drawing.Point(15, 274);
+            this.memoryView1.Name = "memoryView1";
+            this.memoryView1.Size = new System.Drawing.Size(408, 100);
+            this.memoryView1.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 418);
+            this.ClientSize = new System.Drawing.Size(437, 687);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.memoryView2);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.memoryView1);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
@@ -326,6 +381,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Virtual Memory Simulator";
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -361,6 +417,11 @@
         private System.Windows.Forms.ColumnHeader Command;
         private System.Windows.Forms.ColumnHeader Address;
         private System.Windows.Forms.Label label13;
+        private view.MemoryView memoryView1;
+        private System.Windows.Forms.Label label14;
+        private view.MemoryView memoryView2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }
 

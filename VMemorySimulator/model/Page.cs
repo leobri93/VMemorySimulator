@@ -9,5 +9,11 @@ namespace VMemorySimulator.model
     public class Page
     {
         public bool free;
+        public int[] space;
+
+        public Page()
+        {
+            free = true;
+        }
     }
 }

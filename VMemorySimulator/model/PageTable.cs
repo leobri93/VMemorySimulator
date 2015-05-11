@@ -31,5 +31,11 @@ namespace VMemorySimulator.model
             V[PageNumber] = true;
             frame[PageNumber] = FrameNumber;
         }
+
+        public void insertPageInSecondaryMemory(int PageNumber, int FrameNumber)
+        {
+            V[PageNumber] = false;
+            frame[PageNumber] = FrameNumber;
+        }
     }
 }

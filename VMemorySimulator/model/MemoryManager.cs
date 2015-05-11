@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VMemorySimulator.view;
 
 namespace VMemorySimulator.model
 {
@@ -15,19 +16,48 @@ namespace VMemorySimulator.model
         public int sizeOfPage;
         public int sizeOfProcImg;
         public int logicAddress;
+
         
         public void createProcess(string nameOfProcess, int size)
         {
             int numOfPages = size / sizeOfPage;
             if (size % sizeOfPage > 0)
                 numOfPages++;
-            _processes.Add(Process.create(nameOfProcess,numOfPages));
+            Process p = Process.create(nameOfProcess, numOfPages);
+            _processes.Add(p);
 
-            //CARREGAR PARTE DO PROCESSO NA MEMORIA PRINCIPAL
-
-            //CARREGAR A OUTRA PARTE DO PROCESSO NA MEMORIA SECUNDÁRIAS
-
+            //ALLOC MEM
+            for(int i = 0; i < numOfPages; i++)
+            {
+                //ALOCANDO NA MEMORIA PRINCIPAL
+                if (i < sizeOfProcImg)
+                {
+                    int free_frame = _pmem.getFreeFrame();
+                    if (free_frame == -1)
+                        LRU.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
+                    else
+                    {
+                        p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
+                        _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
+                        this._pmem.view.blocks[free_frame].Text = p.name + "\n\n" + i; //COLOCANDO NA VIEW
+                    }
+                }
+                //ALOCANDO NA MEMÓRIA SECUNDÁRIA
+                else
+                {
+                    int free_frame = _smem.getFreeFrame();
+                    if (free_frame == -1)
+                        throw new Exception("Secondary Memory Full!"); //CASO MEMORIA CHEIA, EXCEPTION MEMORIA CHEIA!
+                    else
+                    {
+                        p.tab.insertPageInSecondaryMemory(i, free_frame); //INSERINDO NA TABELA
+                        _smem.add(free_frame); //RESERVANDO FRAME NA MEMORIA SECUNDARIA
+                        this._smem.view.blocks[free_frame].Text = p.name + "\n\n" + i; //COLOCANDO NA VIEW
+                    }
+                }
+            }           
         }
+
 
         public void read(string nameOfProcess, int logicAddress)
         {
@@ -50,6 +80,7 @@ namespace VMemorySimulator.model
                         //SWAP ENTRE MEMORIAS
                         execute();
                     }
+                    this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n" + pageNumber;
                     return;
                 }
             }
@@ -66,7 +97,7 @@ namespace VMemorySimulator.model
         {
             foreach (Process p in _processes)
             {
-                if (!(p.name == nameOfProcess))
+                if ((p.name == nameOfProcess))
                 {
                     int pageNumber = getPageNumber(logicAddress);
                     try
@@ -85,6 +116,7 @@ namespace VMemorySimulator.model
                             executeWrite();
                         }
                     }
+                    this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n"+ pageNumber;
                     return;
                 }
             }
@@ -92,7 +124,7 @@ namespace VMemorySimulator.model
 
         private void executeWrite()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public int getPageNumber(int logicAddress)

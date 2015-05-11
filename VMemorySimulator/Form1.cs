@@ -14,6 +14,9 @@ namespace VMemorySimulator
 {
     public partial class Form1 : Form
     {
+        private int step = 0;
+        private MemoryManager manager;
+
         public Form1()
         {
             InitializeComponent();        
@@ -31,25 +34,33 @@ namespace VMemorySimulator
                 {                        
                     listScript.Items.Add(new ListViewItem(sr.ReadLine().Split(' ')));
                 }
-                    
+                listScript.Items[0].BackColor = Color.Yellow;    
                 MessageBox.Show("Script Imported Successfuly!","Script Importer");          
             }
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-            MemoryManager manager = new MemoryManager()
+            if (manager == null)
             {
-                sizeOfPage = Int32.Parse(t_page.Text),
-                sizeOfProcImg = Int32.Parse(t_pi.Text),
-                logicAddress = Int32.Parse(t_la.Text),
-                _pmem = Memory.create(Int32.Parse(t_pm.Text)),
-                _smem = Memory.create(Int32.Parse(t_sm.Text)),
-            };
+                manager = new MemoryManager()
+                {
+                    sizeOfPage = Int32.Parse(t_page.Text),
+                    sizeOfProcImg = Int32.Parse(t_pi.Text),
+                    logicAddress = Int32.Parse(t_la.Text),
+                    _pmem = Memory.create(Int32.Parse(t_pm.Text),memoryView1),
+                    _smem = Memory.create(Int32.Parse(t_sm.Text),memoryView2),
+                };
+                manager._pmem.view.readjust(manager._pmem);
+                manager._smem.view.readjust(manager._smem);
+            }
 
-            foreach(ListViewItem item in listScript.Items)
-            {
+            if (step != 0)
+                listScript.Items[step - 1].BackColor = Color.White;
+            ListViewItem item = listScript.Items[step++];
+            item.BackColor = Color.Yellow;
+
                 char type = item.SubItems[1].Text[0];
                 string name = item.SubItems[0].Text;
                 int value = Int32.Parse(item.SubItems[2].Text);
@@ -65,7 +76,7 @@ namespace VMemorySimulator
                         manager.write(name, value);
                         break;
                 }
-            }
+
         }
     }
 }
