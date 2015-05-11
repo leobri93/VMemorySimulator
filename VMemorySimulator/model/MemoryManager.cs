@@ -45,6 +45,7 @@ namespace VMemorySimulator.model
                     {
                         //Atualiza a tabela de paginas
                         if (e.Message == "Page Fault")
+                            //verifcar qual metodo de substituição foi escolhido
                             LRU.treatPageFault(this, p, pageNumber);
                         //SWAP ENTRE MEMORIAS
                         execute();
@@ -63,7 +64,35 @@ namespace VMemorySimulator.model
 
         public void write(string nameOfProcess, int logicAddress)
         {
+            foreach (Process p in _processes)
+            {
+                if (!(p.name == nameOfProcess))
+                {
+                    int pageNumber = getPageNumber(logicAddress);
+                    try
+                    {
+                        int frameNumber = p.tab.getFrameNumber(pageNumber);
+                        //SWAP 
+                        executeWrite();
+                    }
+                    catch (Exception e)
+                    {
+                        if (e.Message.IndexOf("Page Fault", StringComparison.InvariantCultureIgnoreCase) != -1)
+                        {
+                            //verifcar qual metodo de substituição foi escolhido
+                            LRU.treatPageFault(this, p, pageNumber);
+                            //SWAP
+                            executeWrite();
+                        }
+                    }
+                    return;
+                }
+            }
+        }
 
+        private void executeWrite()
+        {
+            throw new NotImplementedException();
         }
 
         public int getPageNumber(int logicAddress)
