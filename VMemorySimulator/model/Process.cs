@@ -12,14 +12,18 @@ namespace VMemorySimulator.model
 
         public PageTable tab { get; set; }
 
+        
+
         public static Process create(string nameOfProcess, int numOfPages)
         {
             return new Process()
             {
                 name = nameOfProcess,
                 tab = new PageTable(numOfPages),
+               
             };
         }
+
     }
 }
    
