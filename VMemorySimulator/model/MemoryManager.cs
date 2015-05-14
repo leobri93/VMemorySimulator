@@ -17,7 +17,16 @@ namespace VMemorySimulator.model
         public int sizeOfProcImg;
         public int logicAddress;
 
-        
+        public Process getProcessByName(string nameOfProcess)
+        {
+            foreach (Process p in _processes)
+            {
+                if (p.name == nameOfProcess)
+                    return p;
+            }
+            return null;
+        }
+
         public void createProcess(string nameOfProcess, int size)
         {
 
@@ -33,6 +42,7 @@ namespace VMemorySimulator.model
             //Adição à Lista de Processos
             _processes.Add(p);
             
+
             //Processo de Alocação de um novo Processo na Memória
             for(int i = 0; i < numOfPages; i++)
             {
@@ -41,13 +51,18 @@ namespace VMemorySimulator.model
                 {
                     int free_frame = _pmem.getFreeFrame();
 
-                    if (free_frame == -1) //Retorna -1 se Memória Cheia
+                    if (free_frame == -1)
                     {
-                        LRU.treatPageFault(this, p, i); //Caso Memória Cheia, Chama LRU
+                        // verifcar metodo de substituicao =  LRU
+                        LRU.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
+
+                        //caso seja clock
+                        //entra no metodo de clock
+
                     }
-                        
                     else
                     {
+                        LRU.refresh(p.name + "_" + i);
                         p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
                         this._pmem.view.insertPage(free_frame, p.name, i); //COLOCANDO NA VIEW
@@ -93,6 +108,7 @@ namespace VMemorySimulator.model
                         execute();
                     }
                     this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n" + pageNumber;
+                    LRU.refresh(p.name + "_" + pageNumber);
                     return;
                 }
             }
@@ -129,6 +145,7 @@ namespace VMemorySimulator.model
                         }
                     }
                     this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n"+ pageNumber;
+                    LRU.refresh(p.name + pageNumber);
                     return;
                 }
             }

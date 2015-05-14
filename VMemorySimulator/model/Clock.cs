@@ -10,7 +10,7 @@ namespace VMemorySimulator.model
     {
         public bool[] list; //lista de utilizados
         public int pont = 0; //ponteiro
-
+        public static List<string> history = new List<string>(); 
         public Clock(int tamanho_memoria)
         {
             list = new bool[tamanho_memoria];
@@ -24,15 +24,51 @@ namespace VMemorySimulator.model
         }
 
 
-        public void treatPageFault(MemoryManager mgr, Process p, int PageNumber)
+        public void treatPageFault(MemoryManager mgr, Process p, int pageNumber)
         {
+            string process_page = p.name + pageNumber;
+            history.Add(p.name + "_" + pageNumber);
+            //enquato o frame estiver utilizado
             while (list[pont] == true)
             {
-                list[pont++] = false;
+                //percorrendo historico de process+page
+                foreach (string item in history)
+                {
+                    //verifica se item atual é igual a process_page
+                    if (item == process_page)
+                    {
+                        //caso possitivo, faz o elemento na tabela de paginas receber true
+                        list[pont] = true;
+                    }
+                    else
+                    {
+                        //caso contrario remove o elemento do histórico 
+                        history.RemoveAt(pont);
+                        //faz o elemento receber false na tabela de paginas e anda com o ponteiro
+                        list[pont++] = false;
+                    }
+                }
+                //verfica se é o final da tabela de paginas
                 if (pont == list.Length)
+                    //caso positivo, volta com o ponteiro para o primeiro elemento
                     pont = 0;
             }
-            p.tab.insertPageInMemory(PageNumber, pont);       
+            //insere na tabela de paginas
+            if (list[pont] == false )
+            {
+                foreach (string item in history)
+                {
+                    if (item == process_page)
+                    {
+                        list[pont] = true;
+                    }
+                    else
+                    {
+                        p.tab.insertPageInMemory(pageNumber, pont);
+                    }
+                    
+                }
+            }
         }        
     }
 }
