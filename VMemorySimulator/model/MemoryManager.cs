@@ -19,7 +19,8 @@ namespace VMemorySimulator.model
 
 
         public TableView tableView;
-        
+
+        public Clock clock;
 
         public Process getProcessByName(string nameOfProcess)
         {
@@ -63,7 +64,7 @@ namespace VMemorySimulator.model
                     if (free_frame == -1)
                     {
                         // verifcar metodo de substituicao =  LRU
-                        LRU.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
+                        clock.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
 
                         //caso seja clock
                         //entra no metodo de clock
@@ -72,7 +73,7 @@ namespace VMemorySimulator.model
                     else
                     {
 
-                        LRU.refresh(p.name + "_" + i);
+                        clock.refresh(p.name + "_" + i);
                         p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
                         this._pmem.view.insertPage(free_frame, p.name, i); //Atualiza a view 
@@ -126,7 +127,7 @@ namespace VMemorySimulator.model
                         //Atualiza a tabela de paginas
                         if (e.Message == "Page Fault")
                             //verifcar qual metodo de substituição foi escolhido
-                            LRU.treatPageFault(this, p, pageNumber);
+                            clock.treatPageFault(this, p, pageNumber);
                         //SWAP ENTRE MEMORIAS
                         execute();
                     }

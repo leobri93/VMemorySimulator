@@ -52,6 +52,7 @@ namespace VMemorySimulator
                 _pmem = Memory.create(Int32.Parse(t_pm.Text), memoryView1),
                 _smem = Memory.create(Int32.Parse(t_sm.Text), memoryView2),
                 tableView = this.tableView1,
+                clock = new Clock(Int32.Parse(t_pm.Text)),
             };
             
             manager._pmem.view.readjust(manager._pmem);

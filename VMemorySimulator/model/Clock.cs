@@ -20,13 +20,13 @@ namespace VMemorySimulator.model
 
         public void refresh(string process_page)
         {
-
+            history.Add(process_page);
         }
 
 
         public void treatPageFault(MemoryManager mgr, Process p, int pageNumber)
         {
-            string process_page = p.name + pageNumber;
+            string process_page = p.name + "_" + pageNumber;
             history.Add(p.name + "_" + pageNumber);
             //enquato o frame estiver utilizado
             while (list[pont] == true)
@@ -65,6 +65,8 @@ namespace VMemorySimulator.model
                     else
                     {
                         p.tab.insertPageInMemory(pageNumber, pont);
+                        mgr._pmem.view.blocks[pont].Text = p.name + "\n\n" + pageNumber;
+                        break;
                     }
                     
                 }

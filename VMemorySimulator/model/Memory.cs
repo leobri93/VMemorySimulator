@@ -16,14 +16,14 @@ namespace VMemorySimulator.model
         public Memory(int numOfPages)
         {
             pages = new Page[numOfPages];
-            for(int i=0;i<pages.Length;i++)
+            for (int i = 0; i < pages.Length; i++)
                 pages[i] = new Page();
         }
 
         public static Memory create(int numOfPages, MemoryView v)
         {
             return new Memory(numOfPages)
-            {               
+            {
                 view = v
             };
         }
@@ -40,10 +40,11 @@ namespace VMemorySimulator.model
                     return i;
             return -1;
         }
-    }
-     public void free(int frame)
+
+        public void free(int frame)
         {
             //pages[frame] = true;
         }
+    }
    
 }
