@@ -40,11 +40,6 @@ namespace VMemorySimulator.model
                     return i;
             return -1;
         }
-
-        public void free(int frame)
-        {
-            //pages[frame] = true;
-        }
     }
 
    

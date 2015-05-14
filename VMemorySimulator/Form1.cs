@@ -52,7 +52,6 @@ namespace VMemorySimulator
                     _pmem = Memory.create(Int32.Parse(t_pm.Text),memoryView1),
                     _smem = Memory.create(Int32.Parse(t_sm.Text),memoryView2),
                 };
-                
                 manager._pmem.view.readjust(manager._pmem);
                 manager._smem.view.readjust(manager._smem);
             }

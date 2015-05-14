@@ -37,6 +37,5 @@ namespace VMemorySimulator.model
             V[PageNumber] = false;
             frame[PageNumber] = FrameNumber;
         }
-        
     }
 }
