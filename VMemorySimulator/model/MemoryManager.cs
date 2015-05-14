@@ -20,29 +20,41 @@ namespace VMemorySimulator.model
         
         public void createProcess(string nameOfProcess, int size)
         {
+
+            //Cálculo do Número de Páginas
             int numOfPages = size / sizeOfPage;
+
             if (size % sizeOfPage > 0)
                 numOfPages++;
-            Process p = Process.create(nameOfProcess, numOfPages);
-            _processes.Add(p);
 
-            //ALLOC MEM
+            //Criação de um Processo
+            Process p = Process.create(nameOfProcess, numOfPages);
+
+            //Adição à Lista de Processos
+            _processes.Add(p);
+            
+            //Processo de Alocação de um novo Processo na Memória
             for(int i = 0; i < numOfPages; i++)
             {
-                //ALOCANDO NA MEMORIA PRINCIPAL
+                //Alocação Parcial na Memória Principal
                 if (i < sizeOfProcImg)
                 {
                     int free_frame = _pmem.getFreeFrame();
-                    if (free_frame == -1)
-                        LRU.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
+
+                    if (free_frame == -1) //Retorna -1 se Memória Cheia
+                    {
+                        LRU.treatPageFault(this, p, i); //Caso Memória Cheia, Chama LRU
+                    }
+                        
                     else
                     {
                         p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
-                        this._pmem.view.blocks[free_frame].Text = p.name + "\n\n" + i; //COLOCANDO NA VIEW
+                        this._pmem.view.insertPage(free_frame, p.name, i); //COLOCANDO NA VIEW
                     }
                 }
-                //ALOCANDO NA MEMÓRIA SECUNDÁRIA
+
+                //Alocação Parcial na Memória Secundária
                 else
                 {
                     int free_frame = _smem.getFreeFrame();
@@ -52,7 +64,7 @@ namespace VMemorySimulator.model
                     {
                         p.tab.insertPageInSecondaryMemory(i, free_frame); //INSERINDO NA TABELA
                         _smem.add(free_frame); //RESERVANDO FRAME NA MEMORIA SECUNDARIA
-                        this._smem.view.blocks[free_frame].Text = p.name + "\n\n" + i; //COLOCANDO NA VIEW
+                        this._smem.view.insertPage(free_frame, p.name, i); //ATUALIZANDO VIEW                        
                     }
                 }
             }           
@@ -135,6 +147,14 @@ namespace VMemorySimulator.model
         public int getOffset(int logicAddress)
         {
             return logicAddress % sizeOfPage;
+        }
+
+        public Process getProcess(string name)
+        {
+            foreach (Process p in _processes)
+                if (p.name == name)
+                    return p;
+            return null;
         }
 
     }

@@ -26,6 +26,16 @@ namespace VMemorySimulator.model
             return frame[PageNumber];
         }
 
+        public bool getValidity(int PageNumber)
+        {
+            return V[PageNumber];
+        }
+
+        public bool getModification(int PageNumber)
+        {
+            return M[PageNumber];
+        }
+
         public void insertPageInMemory(int PageNumber, int FrameNumber)
         {
             V[PageNumber] = true;

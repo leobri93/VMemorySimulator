@@ -57,11 +57,11 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableView1 = new VMemorySimulator.view.TableView();
+            this.Console = new System.Windows.Forms.TabPage();
             this.memoryView2 = new VMemorySimulator.view.MemoryView();
             this.memoryView1 = new VMemorySimulator.view.MemoryView();
-            this.tabControl1.SuspendLayout();
+            this.tableView1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -115,7 +115,7 @@
             this.t_pm.Name = "t_pm";
             this.t_pm.Size = new System.Drawing.Size(60, 20);
             this.t_pm.TabIndex = 5;
-            this.t_pm.Text = "20";
+            this.t_pm.Text = "10";
             // 
             // t_la
             // 
@@ -148,7 +148,7 @@
             this.t_sm.Name = "t_sm";
             this.t_sm.Size = new System.Drawing.Size(60, 20);
             this.t_sm.TabIndex = 9;
-            this.t_sm.Text = "40";
+            this.t_sm.Text = "20";
             // 
             // t_pi
             // 
@@ -170,6 +170,9 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "LRU",
+            "Clock"});
             this.comboBox1.Location = new System.Drawing.Point(15, 69);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(242, 21);
@@ -224,6 +227,7 @@
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(132, 204);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(61, 33);
@@ -234,6 +238,7 @@
             // 
             // button3
             // 
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(199, 204);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(58, 33);
@@ -305,37 +310,36 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(12, 379);
+            this.label14.Location = new System.Drawing.Point(12, 347);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(150, 13);
             this.label14.TabIndex = 26;
             this.label14.Text = "Secondary Memory Block";
             // 
-            // tabControl1
+            // tableView1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(15, 508);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(410, 167);
-            this.tabControl1.TabIndex = 28;
+            this.tableView1.Controls.Add(this.Console);
+            this.tableView1.Location = new System.Drawing.Point(15, 439);
+            this.tableView1.Name = "tableView1";
+            this.tableView1.SelectedIndex = 0;
+            this.tableView1.Size = new System.Drawing.Size(408, 155);
+            this.tableView1.TabIndex = 0;
             // 
-            // tabPage1
+            // Console
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(402, 141);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "P1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.Console.Location = new System.Drawing.Point(4, 22);
+            this.Console.Name = "Console";
+            this.Console.Size = new System.Drawing.Size(400, 129);
+            this.Console.TabIndex = 0;
+            this.Console.Text = "Console";
+            this.Console.UseVisualStyleBackColor = true;
             // 
             // memoryView2
             // 
             this.memoryView2.BackColor = System.Drawing.Color.White;
-            this.memoryView2.Location = new System.Drawing.Point(15, 396);
+            this.memoryView2.Location = new System.Drawing.Point(15, 363);
             this.memoryView2.Name = "memoryView2";
-            this.memoryView2.Size = new System.Drawing.Size(408, 100);
+            this.memoryView2.Size = new System.Drawing.Size(408, 70);
             this.memoryView2.TabIndex = 27;
             // 
             // memoryView1
@@ -343,15 +347,15 @@
             this.memoryView1.BackColor = System.Drawing.Color.White;
             this.memoryView1.Location = new System.Drawing.Point(15, 274);
             this.memoryView1.Name = "memoryView1";
-            this.memoryView1.Size = new System.Drawing.Size(408, 100);
+            this.memoryView1.Size = new System.Drawing.Size(408, 70);
             this.memoryView1.TabIndex = 25;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 687);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(437, 608);
+            this.Controls.Add(this.tableView1);
             this.Controls.Add(this.memoryView2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.memoryView1);
@@ -381,7 +385,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Virtual Memory Simulator";
-            this.tabControl1.ResumeLayout(false);
+            this.tableView1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -420,8 +424,8 @@
         private view.MemoryView memoryView1;
         private System.Windows.Forms.Label label14;
         private view.MemoryView memoryView2;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private view.TableView tableView1;
+        private System.Windows.Forms.TabPage Console;
     }
 }
 

@@ -18,6 +18,11 @@ namespace VMemorySimulator.view
             this.BackColor = System.Drawing.Color.White;
         }
 
+        public void insertPage(int frameNumber, string nameOfProcess, int PageNumber)
+        {
+            this.blocks[frameNumber].Text = nameOfProcess + "\n\n" + PageNumber;
+        }
+
         public void readjust(Memory mem)
         {
             this.mem = mem;

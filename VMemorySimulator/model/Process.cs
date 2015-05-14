@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace VMemorySimulator.model
 {
@@ -12,13 +13,17 @@ namespace VMemorySimulator.model
 
         public PageTable tab { get; set; }
 
+        public int size;
+
         public static Process create(string nameOfProcess, int numOfPages)
         {
             return new Process()
             {
                 name = nameOfProcess,
                 tab = new PageTable(numOfPages),
+                size = numOfPages,
             };
+           
         }
     }
 }

@@ -14,69 +14,67 @@ namespace VMemorySimulator
 {
     public partial class Form1 : Form
     {
-        private int step = 0;
         private MemoryManager manager;
 
         public Form1()
         {
-            InitializeComponent();        
+            InitializeComponent();
+            openFileDialog1.FileName = "script";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            openFileDialog1.FileName = "script";
 
+            #region Procedimento do File Dialog para receber o Script
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var sr = new StreamReader(openFileDialog1.FileName);
                 textBox6.Text = openFileDialog1.FileName;
                 while (!sr.EndOfStream)
                 {                        
+                    //Consome o Script
                     listScript.Items.Add(new ListViewItem(sr.ReadLine().Split(' ')));
-                }
-                listScript.Items[0].BackColor = Color.Yellow;    
-                MessageBox.Show("Script Imported Successfuly!","Script Importer");          
+                }   
+                MessageBox.Show("Script Imported Successfuly!","Script Importer");
+
+                sr.Close();        
             }
+            #endregion
+
+            #region Criação do Memory Manager
+            manager = new MemoryManager()
+            {
+                sizeOfPage = Int32.Parse(t_page.Text),
+                sizeOfProcImg = Int32.Parse(t_pi.Text),
+                logicAddress = Int32.Parse(t_la.Text),
+                _pmem = Memory.create(Int32.Parse(t_pm.Text), memoryView1),
+                _smem = Memory.create(Int32.Parse(t_sm.Text), memoryView2),
+            };
             
+            manager._pmem.view.readjust(manager._pmem);
+            manager._smem.view.readjust(manager._smem);
+            #endregion
+
+            #region Configuração Enable/Disable dos Componentes Ready for Execute
+            button2.Enabled = true;
+            button3.Enabled = true;
+            t_page.Enabled = false;
+            t_pi.Enabled = false;
+            t_la.Enabled = false;
+            t_pm.Enabled = false;
+            t_sm.Enabled = false;
+            textBox6.Enabled = false;
+            #endregion
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (manager == null)
-            {
-                manager = new MemoryManager()
-                {
-                    sizeOfPage = Int32.Parse(t_page.Text),
-                    sizeOfProcImg = Int32.Parse(t_pi.Text),
-                    logicAddress = Int32.Parse(t_la.Text),
-                    _pmem = Memory.create(Int32.Parse(t_pm.Text),memoryView1),
-                    _smem = Memory.create(Int32.Parse(t_sm.Text),memoryView2),
-                };
-                manager._pmem.view.readjust(manager._pmem);
-                manager._smem.view.readjust(manager._smem);
-            }
-
             if (step != 0)
                 listScript.Items[step - 1].BackColor = Color.White;
-            ListViewItem item = listScript.Items[step++];
-            item.BackColor = Color.Yellow;
 
-                char type = item.SubItems[1].Text[0];
-                string name = item.SubItems[0].Text;
-                int value = Int32.Parse(item.SubItems[2].Text);
-
-                switch (type) {
-                    case 'C':
-                        manager.createProcess(name, value);
-                        break;
-                    case 'R':
-                        manager.read(name, value);
-                        break;
-                    case 'W':
-                        manager.write(name, value);
-                        break;
-                }
-
+            
         }
+
     }
 }
