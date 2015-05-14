@@ -58,10 +58,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.tableView1 = new VMemorySimulator.view.TableView();
-            this.Console = new System.Windows.Forms.TabPage();
             this.memoryView2 = new VMemorySimulator.view.MemoryView();
             this.memoryView1 = new VMemorySimulator.view.MemoryView();
-            this.tableView1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -318,25 +316,15 @@
             // 
             // tableView1
             // 
-            this.tableView1.Controls.Add(this.Console);
             this.tableView1.Location = new System.Drawing.Point(15, 439);
             this.tableView1.Name = "tableView1";
             this.tableView1.SelectedIndex = 0;
             this.tableView1.Size = new System.Drawing.Size(408, 155);
             this.tableView1.TabIndex = 0;
             // 
-            // Console
-            // 
-            this.Console.Location = new System.Drawing.Point(4, 22);
-            this.Console.Name = "Console";
-            this.Console.Size = new System.Drawing.Size(400, 129);
-            this.Console.TabIndex = 0;
-            this.Console.Text = "Console";
-            this.Console.UseVisualStyleBackColor = true;
-            // 
             // memoryView2
             // 
-            this.memoryView2.BackColor = System.Drawing.Color.White;
+            this.memoryView2.BackColor = System.Drawing.Color.Transparent;
             this.memoryView2.Location = new System.Drawing.Point(15, 363);
             this.memoryView2.Name = "memoryView2";
             this.memoryView2.Size = new System.Drawing.Size(408, 70);
@@ -344,7 +332,7 @@
             // 
             // memoryView1
             // 
-            this.memoryView1.BackColor = System.Drawing.Color.White;
+            this.memoryView1.BackColor = System.Drawing.Color.Transparent;
             this.memoryView1.Location = new System.Drawing.Point(15, 274);
             this.memoryView1.Name = "memoryView1";
             this.memoryView1.Size = new System.Drawing.Size(408, 70);
@@ -385,7 +373,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Virtual Memory Simulator";
-            this.tableView1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -425,7 +412,6 @@
         private System.Windows.Forms.Label label14;
         private view.MemoryView memoryView2;
         private view.TableView tableView1;
-        private System.Windows.Forms.TabPage Console;
     }
 }
 

@@ -18,9 +18,18 @@ namespace VMemorySimulator.view
             this.BackColor = System.Drawing.Color.White;
         }
 
+        public void reset()
+        {
+            foreach(Label block in blocks)
+            {
+                block.ForeColor = System.Drawing.Color.Black;            
+            }
+        }
+
         public void insertPage(int frameNumber, string nameOfProcess, int PageNumber)
         {
             this.blocks[frameNumber].Text = nameOfProcess + "\n\n" + PageNumber;
+            blocks[frameNumber].ForeColor = System.Drawing.Color.Red;
         }
 
         public void readjust(Memory mem)
@@ -30,7 +39,6 @@ namespace VMemorySimulator.view
             for (int i = 0; i < blocks.Length; i++)
             {
                 blocks[i] = new Label();
-                blocks[i].ForeColor = System.Drawing.Color.Red;
                 blocks[i].BackColor = System.Drawing.Color.White;
                 blocks[i].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                 blocks[i].BorderStyle = BorderStyle.FixedSingle;

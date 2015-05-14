@@ -9,18 +9,13 @@ namespace VMemorySimulator.model
 {
     public class ScriptRunner
     {
-        private static int step = 0;
-        private MemoryManager manager;
-
-        public static void Run(ListView listScript)
+        
+        public static void Run(ListViewItem instruction, MemoryManager manager)
         {
-            ListViewItem item = listScript.Items[step++];
-            item.BackColor = System.Drawing.Color.Yellow;
-
             #region Identificação dos Valores do Script (Tipo - Nome do Processo - Valor)
-            char type = item.SubItems[1].Text[0];
-            string name = item.SubItems[0].Text;
-            int value = Int32.Parse(item.SubItems[2].Text);
+            char type = instruction.SubItems[1].Text[0];
+            string name = instruction.SubItems[0].Text;
+            int value = Int32.Parse(instruction.SubItems[2].Text);
             #endregion
 
             #region Execução da Instrução
@@ -28,7 +23,7 @@ namespace VMemorySimulator.model
             {
                 case 'C':
                     manager.createProcess(name, value);
-                    this.tableView1.addProcess(manager.getProcess(name));
+                    //this.tableView1.addProcess(manager.getProcess(name));
                     break;
                 case 'R':
                     manager.read(name, value);
@@ -38,7 +33,6 @@ namespace VMemorySimulator.model
                     break;
             }
             #endregion
-
         }
     }
 }

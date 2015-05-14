@@ -17,29 +17,34 @@ namespace VMemorySimulator.model
         public int sizeOfProcImg;
         public int logicAddress;
 
+        public TableView tableView;
         
         public void createProcess(string nameOfProcess, int size)
         {
+            this._pmem.view.reset();
+            this._smem.view.reset();
 
-            //Cálculo do Número de Páginas
+            #region  Cálculo do Número de Páginas
             int numOfPages = size / sizeOfPage;
 
             if (size % sizeOfPage > 0)
                 numOfPages++;
+            #endregion
 
-            //Criação de um Processo
+            #region Criação de um Processo e Adição à Lista de Processos
             Process p = Process.create(nameOfProcess, numOfPages);
-
-            //Adição à Lista de Processos
             _processes.Add(p);
-            
-            //Processo de Alocação de um novo Processo na Memória
-            for(int i = 0; i < numOfPages; i++)
+            #endregion
+
+            #region Processo de Alocação de um novo Processo na Memória
+
+            for (int i = 0; i < numOfPages; i++)
             {
-                //Alocação Parcial na Memória Principal
+            
+                #region Alocação Parcial na MP
                 if (i < sizeOfProcImg)
                 {
-                    int free_frame = _pmem.getFreeFrame();
+                    int free_frame = _pmem.getFreeFrame(); //Pega Próximo Frame Vazio na MP
 
                     if (free_frame == -1) //Retorna -1 se Memória Cheia
                     {
@@ -48,32 +53,44 @@ namespace VMemorySimulator.model
                         
                     else
                     {
-                        p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
-                        _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
-                        this._pmem.view.insertPage(free_frame, p.name, i); //COLOCANDO NA VIEW
+                        p.tab.insertPageInMemory(i, free_frame); //Insere na Tabela de Páginas
+                        _pmem.add(free_frame); //Reserva o Frame na MP
+                        this._pmem.view.insertPage(free_frame, p.name, i); //Atualiza a View
                     }
                 }
-
-                //Alocação Parcial na Memória Secundária
+                #endregion
+                
+                #region Alocação Parcial na MS
                 else
                 {
-                    int free_frame = _smem.getFreeFrame();
+                    int free_frame = _smem.getFreeFrame(); //Pega Próximo Frame Vazio na MS
+
                     if (free_frame == -1)
-                        throw new Exception("Secondary Memory Full!"); //CASO MEMORIA CHEIA, EXCEPTION MEMORIA CHEIA!
+                        throw new Exception("Secondary Memory Full"); //Caso Memória Cheia: Exception
+
                     else
                     {
-                        p.tab.insertPageInSecondaryMemory(i, free_frame); //INSERINDO NA TABELA
-                        _smem.add(free_frame); //RESERVANDO FRAME NA MEMORIA SECUNDARIA
-                        this._smem.view.insertPage(free_frame, p.name, i); //ATUALIZANDO VIEW                        
+                        p.tab.insertPageInSecondaryMemory(i, free_frame); //Insere na Tabela de Páginas
+                        _smem.add(free_frame); //Reserva o Frame na MP
+                        this._smem.view.insertPage(free_frame, p.name, i); //Atualiza a View                       
                     }
                 }
-            }           
+                #endregion
+        
+            }
+            #endregion
+
+            //Atualização na View de Tabelas
+            this.tableView.addProcess(p);
         }
 
 
         public void read(string nameOfProcess, int logicAddress)
         {
-            foreach(Process p in _processes)
+            this._pmem.view.reset();
+            this._smem.view.reset();
+
+            foreach (Process p in _processes)
             {
                 if(p.name == nameOfProcess)
                 {
