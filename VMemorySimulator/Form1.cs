@@ -37,27 +37,13 @@ namespace VMemorySimulator
                     //Consome o Script
                     listScript.Items.Add(new ListViewItem(sr.ReadLine().Split(' ')));
                 }   
-                MessageBox.Show("Script Imported Successfuly!","Script Importer");
+                MessageBox.Show("Script Imported Successfuly!","Script Importer",MessageBoxButtons.OK,MessageBoxIcon.Information);
 
                 sr.Close();        
             }
             #endregion
 
-            #region Criação do Memory Manager
-            manager = new MemoryManager()
-            {
-                sizeOfPage = Int32.Parse(t_page.Text),
-                sizeOfProcImg = Int32.Parse(t_pi.Text),
-                logicAddress = Int32.Parse(t_la.Text),
-                _pmem = Memory.create(Int32.Parse(t_pm.Text), memoryView1),
-                _smem = Memory.create(Int32.Parse(t_sm.Text), memoryView2),
-                tableView = this.tableView1,
-                clock = new Clock(Int32.Parse(t_pm.Text)),
-            };
-            
-            manager._pmem.view.readjust(manager._pmem);
-            manager._smem.view.readjust(manager._smem);
-            #endregion
+            resetMemoryManager();
 
             #region Configuração Enable/Disable dos Componentes Ready for Execute
             button2.Enabled = true;
@@ -83,9 +69,38 @@ namespace VMemorySimulator
                 listScript.Items[step - 2].BackColor = Color.White;
             #endregion
 
-            ScriptRunner.Run(instruction,manager);
+            try {
+                ScriptRunner.Run(instruction, manager);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message,"Memory Manager",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                resetMemoryManager();
+                listScript.Items[step-1].BackColor = Color.White;
+                step = 0;
+            }
             
         }
 
+        public void resetMemoryManager()
+        {
+            manager = new MemoryManager()
+            {
+                sizeOfPage = Int32.Parse(t_page.Text),
+                sizeOfProcImg = Int32.Parse(t_pi.Text),
+                logicAddress = Int32.Parse(t_la.Text),
+                _pmem = Memory.create(Int32.Parse(t_pm.Text), memoryView1),
+                _smem = Memory.create(Int32.Parse(t_sm.Text), memoryView2),
+                tableView = this.tableView1,
+                clock = new Clock(Int32.Parse(t_pm.Text)),
+                policy = comboBox1.SelectedIndex,
+            };
+
+            LRU.history = new List<string>();
+
+            manager._pmem.view.readjust(manager._pmem);
+            manager._smem.view.readjust(manager._smem);
+
+        }
     }
 }

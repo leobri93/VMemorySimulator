@@ -17,6 +17,9 @@ namespace VMemorySimulator.model
         public int sizeOfProcImg;
         public int logicAddress;
 
+        public enum SubstitutionPolicy {LRU,Clock};
+
+        public int policy;
 
         public TableView tableView;
 
@@ -35,6 +38,7 @@ namespace VMemorySimulator.model
 
         public void createProcess(string nameOfProcess, int size)
         {
+            //Reset Views
             this._pmem.view.reset();
             this._smem.view.reset();
 
@@ -63,17 +67,20 @@ namespace VMemorySimulator.model
 
                     if (free_frame == -1)
                     {
-                        // verifcar metodo de substituicao =  LRU
-                        clock.treatPageFault(this, p, i); //CASO MEMORIA CHEIA, CHAMA LRU
-
-                        //caso seja clock
-                        //entra no metodo de clock
-
+                        switch (policy)
+                        {
+                            case (int)SubstitutionPolicy.LRU:
+                                LRU.treatPageFault(this, p, i);
+                                break;
+                            case (int)SubstitutionPolicy.Clock:
+                                LRU.treatPageFault(this, p, i);
+                                break;
+                        }
                     }
                     else
                     {
+                        LRU.refresh(p,i);
 
-                        clock.refresh(p.name + "_" + i);
                         p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
                         this._pmem.view.insertPage(free_frame, p.name, i); //Atualiza a view 
@@ -125,14 +132,20 @@ namespace VMemorySimulator.model
                     catch (Exception e)
                     {
                         //Atualiza a tabela de paginas
-                        if (e.Message == "Page Fault")
-                            //verifcar qual metodo de substituição foi escolhido
-                            clock.treatPageFault(this, p, pageNumber);
+                        switch (policy)
+                        {
+                            case (int)SubstitutionPolicy.LRU:
+                                LRU.treatPageFault(this, p, pageNumber);
+                                break;
+                            case (int)SubstitutionPolicy.Clock:
+                                LRU.treatPageFault(this, p, pageNumber);
+                                break;
+                        }
                         //SWAP ENTRE MEMORIAS
                         execute();
                     }
-                    this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n" + pageNumber;
-                    LRU.refresh(p.name + "_" + pageNumber);
+                    this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
+                    LRU.refresh(p,pageNumber);
                     return;
                 }
             }
@@ -147,32 +160,42 @@ namespace VMemorySimulator.model
 
         public void write(string nameOfProcess, int logicAddress)
         {
+            this._pmem.view.reset();
+            this._smem.view.reset();
+
             foreach (Process p in _processes)
             {
-                if ((p.name == nameOfProcess))
+                if (p.name == nameOfProcess)
                 {
                     int pageNumber = getPageNumber(logicAddress);
                     try
                     {
                         int frameNumber = p.tab.getFrameNumber(pageNumber);
-                        //SWAP 
-                        executeWrite();
+                        //SWAP ENTRE MEMORIAS
+                        execute();
                     }
                     catch (Exception e)
                     {
-                        if (e.Message.IndexOf("Page Fault", StringComparison.InvariantCultureIgnoreCase) != -1)
+                        //Atualiza a tabela de paginas
+                        switch (policy)
                         {
-                            //verifcar qual metodo de substituição foi escolhido
-                            LRU.treatPageFault(this, p, pageNumber);
-                            //SWAP
-                            executeWrite();
+                            case (int)SubstitutionPolicy.LRU:
+                                LRU.treatPageFault(this, p, pageNumber);
+                                break;
+                            case (int)SubstitutionPolicy.Clock:
+                                LRU.treatPageFault(this, p, pageNumber);
+                                break;
                         }
+                        //SWAP ENTRE MEMORIAS
+                        execute();
                     }
-                    this._pmem.view.blocks[p.tab.getFrameNumber(pageNumber)].Text = p.name + "\n\n"+ pageNumber;
-                    LRU.refresh(p.name + pageNumber);
+                    this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
+                    LRU.refresh(p, pageNumber);
                     return;
                 }
             }
+
+            throw new Exception("ProcessNotFound");
         }
 
         private void executeWrite()

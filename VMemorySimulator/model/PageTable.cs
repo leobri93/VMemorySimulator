@@ -26,6 +26,14 @@ namespace VMemorySimulator.model
             return frame[PageNumber];
         }
 
+        public int getFrameNumberInSecondaryMemory(int PageNumber)
+        {
+            if (V[PageNumber] == true)
+                throw new Exception("Page Fault");
+            return frame[PageNumber];
+
+        }
+
         public bool getValidity(int PageNumber)
         {
             return V[PageNumber];

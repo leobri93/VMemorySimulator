@@ -43,7 +43,7 @@ namespace VMemorySimulator.model
 
         public void free(int frame)
         {
-            //pages[frame] = true;
+            pages[frame].free = true;
         }
     }
    

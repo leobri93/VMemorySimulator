@@ -30,11 +30,13 @@ namespace VMemorySimulator.view
         {
             this.blocks[frameNumber].Text = nameOfProcess + "\n\n" + PageNumber;
             blocks[frameNumber].ForeColor = System.Drawing.Color.Red;
+            
         }
 
         public void readjust(Memory mem)
         {
             this.mem = mem;
+            this.Controls.Clear();
             blocks = new Label[mem.pages.Length];
             for (int i = 0; i < blocks.Length; i++)
             {

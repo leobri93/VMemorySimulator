@@ -23,7 +23,6 @@ namespace VMemorySimulator.model
             {
                 case 'C':
                     manager.createProcess(name, value);
-                    //this.tableView1.addProcess(manager.getProcess(name));
                     break;
                 case 'R':
                     manager.read(name, value);
