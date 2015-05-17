@@ -19,7 +19,8 @@ namespace VMemorySimulator.view
             ((ListView)TabPages[0].Controls[0]).Items.Add(newProcess + newPageNumber + process + PageNumber);
         }
 
-        public void addProcess(Process process)
+
+        public static void setup(Process process)
         {
             /*TabPage tabpage = new TabPage();
             tabpage.Text = process.name;

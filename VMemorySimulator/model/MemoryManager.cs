@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using VMemorySimulator.view;
 
 namespace VMemorySimulator.model
@@ -56,6 +57,9 @@ namespace VMemorySimulator.model
 
             #region Criação de um Processo e Adição à Lista de Processos
             Process p = Process.create(nameOfProcess, numOfPages);
+            TabPage tab_pg = new TabPage();
+            tableView.TabPages.Add(tab_pg);
+            p.setTableView(tab_pg);
             _processes.Add(p);
 
             #endregion
@@ -124,8 +128,7 @@ namespace VMemorySimulator.model
             }
             #endregion
 
-            //Atualização na View de Tabelas
-            this.tableView.addProcess(p);
+            
         }
 
         public void read(string nameOfProcess, int logicAddress)

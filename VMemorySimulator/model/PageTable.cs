@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using VMemorySimulator.view;
 
 namespace VMemorySimulator.model
@@ -13,13 +14,18 @@ namespace VMemorySimulator.model
         private bool[] M;
         private int[] frame;
 
-        public TableView view;
+        public TabPage view;
 
         public PageTable(int size)
         {
             V = new bool[size];
             M = new bool[size];
             frame = new int[size];
+        }
+
+        public void setView(TabPage view)
+        {
+            this.view = view;
         }
 
         public int getFrameNumberInPrimaryMemory(int PageNumber)
@@ -56,12 +62,31 @@ namespace VMemorySimulator.model
         {
             V[PageNumber] = true;
             frame[PageNumber] = FrameNumber;
+
+            ListView tabela = (ListView) view.Controls[0];
+
+
+            ListViewItem item = tabela.Items[PageNumber];
+            item.SubItems[1].Text = (getValidity(PageNumber).ToString());
+            item.SubItems[2].Text = (getModification(PageNumber).ToString());
+            item.SubItems[3].Text = FrameNumber.ToString();
+
+            
         }
 
         public void insertPageInSecondaryMemory(int PageNumber, int FrameNumber)
         {
             V[PageNumber] = false;
             frame[PageNumber] = FrameNumber;
+
+            ListView tabela = (ListView)view.Controls[0];
+
+
+            ListViewItem item = tabela.Items[PageNumber];
+            item.SubItems[1].Text = (getValidity(PageNumber).ToString());
+            item.SubItems[2].Text = (getModification(PageNumber).ToString());
+            item.SubItems[3].Text = FrameNumber.ToString();
+
         }
 
 
