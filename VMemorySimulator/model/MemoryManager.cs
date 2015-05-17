@@ -73,13 +73,23 @@ namespace VMemorySimulator.model
                                 LRU.treatPageFault(this, p, i);
                                 break;
                             case (int)SubstitutionPolicy.Clock:
-                                LRU.treatPageFault(this, p, i);
+                                clock.treatPageFault(this, p, i);
                                 break;
                         }
                     }
                     else
                     {
-                        LRU.refresh(p,i);
+                        switch (policy)
+                        {
+                            case (int)SubstitutionPolicy.LRU:
+                                LRU.refresh(p, i);
+                                break;
+                            case (int)SubstitutionPolicy.Clock:
+                                //faz os page faults de quando ainda há espaço no frame
+                                clock.treatPageFault(this,p, i);
+                                break;
+                        }
+                       
 
                         p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
@@ -138,14 +148,23 @@ namespace VMemorySimulator.model
                                 LRU.treatPageFault(this, p, pageNumber);
                                 break;
                             case (int)SubstitutionPolicy.Clock:
-                                LRU.treatPageFault(this, p, pageNumber);
+                                clock.treatPageFault(this, p, pageNumber);
                                 break;
                         }
                         //SWAP ENTRE MEMORIAS
                         execute();
                     }
                     this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
-                    LRU.refresh(p,pageNumber);
+                    switch (policy)
+                    {
+                        case (int)SubstitutionPolicy.LRU:
+                            LRU.refresh(p, pageNumber);
+                            break;
+                        case (int)SubstitutionPolicy.Clock:
+                            clock.refresh(p, pageNumber);
+                            break;
+                    }
+                    
                     return;
                 }
             }
@@ -183,14 +202,22 @@ namespace VMemorySimulator.model
                                 LRU.treatPageFault(this, p, pageNumber);
                                 break;
                             case (int)SubstitutionPolicy.Clock:
-                                LRU.treatPageFault(this, p, pageNumber);
+                                clock.treatPageFault(this, p, pageNumber);
                                 break;
                         }
                         //SWAP ENTRE MEMORIAS
                         execute();
                     }
                     this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
-                    LRU.refresh(p, pageNumber);
+                    switch (policy)
+                    {
+                        case (int)SubstitutionPolicy.LRU:
+                            LRU.refresh(p, pageNumber);
+                            break;
+                        case (int)SubstitutionPolicy.Clock:
+                            clock.refresh(p, pageNumber);
+                            break;
+                    }
                     return;
                 }
             }
