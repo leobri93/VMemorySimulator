@@ -17,10 +17,29 @@ namespace VMemorySimulator.model
             for (int i = 0; i < tamanho_memoria; i++)
                 list[i] = false;
         }
-
-        public void refresh(string process_page)
+        /// <summary>
+        /// Usado no read e write para atualizar o status do elemento caso ele seja chamado e já esteja na tabela de paginas
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="PageNumber"></param>
+        public void refresh(Process p, int PageNumber)
         {
-            history.Add(process_page);
+            int cont = 0;
+            string process_page = p.name + "_" + PageNumber;
+            foreach (string item in history)
+            {
+                if (item == process_page)
+                {
+                    list[cont] = true;
+                }
+                else
+                {
+                    cont++;
+                }
+                
+            }
+            
+            
         }
 
 
@@ -49,7 +68,7 @@ namespace VMemorySimulator.model
                     }
                 }
                 //verfica se é o final da tabela de paginas
-                if (pont == list.Length)
+                if (pont == (list.Length-1))
                     //caso positivo, volta com o ponteiro para o primeiro elemento
                     pont = 0;
             }
@@ -61,13 +80,17 @@ namespace VMemorySimulator.model
                     if (item == process_page)
                     {
                         list[pont] = true;
+                        if (pont == (list.Length-1))
+                        {
+                            pont = 0;
+                        }
+                        else
+                        {
+                            pont++;
+                        }
+                        
                     }
-                    else
-                    {
-                        p.tab.insertPageInMemory(pageNumber, pont);
-                        mgr._pmem.view.blocks[pont].Text = p.name + "\n\n" + pageNumber;
-                        break;
-                    }
+                   
                     
                 }
             }
