@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,11 @@ namespace VMemorySimulator.model
     {
         public bool[] list; //lista de utilizados
         public int pont = 0; //ponteiro
-        public static List<string> history = new List<string>(); 
+        public string[] history; 
         public Clock(int tamanho_memoria)
         {
             list = new bool[tamanho_memoria];
+            history = new string[tamanho_memoria];
             for (int i = 0; i < tamanho_memoria; i++)
                 list[i] = false;
         }
@@ -46,12 +48,13 @@ namespace VMemorySimulator.model
         public void treatPageFault(MemoryManager mgr, Process p, int pageNumber)
         {
             string process_page = p.name + "_" + pageNumber;
-            history.Add(p.name + "_" + pageNumber);
+            
             //enquato o frame estiver utilizado
             while (list[pont] == true)
             {
+                
                 //percorrendo historico de process+page
-                foreach (string item in history)
+                foreach (string item in history )
                 {
                     //verifica se item atual é igual a process_page
                     if (item == process_page)
@@ -61,26 +64,10 @@ namespace VMemorySimulator.model
                     }
                     else
                     {
-                        //caso contrario remove o elemento do histórico 
-                        history.RemoveAt(pont);
                         //faz o elemento receber false na tabela de paginas e anda com o ponteiro
-                        list[pont++] = false;
-                    }
-                }
-                //verfica se é o final da tabela de paginas
-                if (pont == (list.Length-1))
-                    //caso positivo, volta com o ponteiro para o primeiro elemento
-                    pont = 0;
-            }
-            //insere na tabela de paginas
-            if (list[pont] == false )
-            {
-                foreach (string item in history)
-                {
-                    if (item == process_page)
-                    {
-                        list[pont] = true;
-                        if (pont == (list.Length-1))
+                        list[pont] = false;
+                        //anda com o ponteiro
+                        if (pont == (list.Length - 1))
                         {
                             pont = 0;
                         }
@@ -88,10 +75,59 @@ namespace VMemorySimulator.model
                         {
                             pont++;
                         }
-                        
                     }
-                   
+                }
+             
+               
+            }
+            //insere na tabela de paginas
+            if (list[pont] == false )
+            {
+                //verificar se a posicao no historico existe
+                if (history[pont] != null)
+                {
+                    //remove do historico naquela posicao
+                    history[pont] = null;
                     
+                    //O ITEM QUE FOI REMOVIDO DO HISTORICO SAI DA MEMORIA PRINCIPAL E VAI PARA A SECUNDARIA
+                   
+                    //inserindo o novo process_page no lugar do historico onde foi removido o anterior
+                    history[pont] = process_page;
+
+                    //INSERIR O NOVO ITEM NA MEMORIA PRINCIPAL(tabela de paginas)
+                    //ATUALIZAR A VIEW
+
+                    //list na posicao onde foi adicionado recebe true
+                    list[pont] = true;
+                    //anda com o ponteiro
+                     if (pont == (list.Length-1))
+                     {
+                         pont = 0;
+                     }
+                     else
+                     {
+                         pont++;
+                     }
+                }
+                else
+                {
+                    //inserindo o novo process_page no lugar do historico onde foi removido o anterior
+                    history[pont] = process_page;
+
+                    //INSERIR NA MEMORIA PRINCIPAL(tabela de paginas)
+                    //ATUALIZAR A VIEW
+
+                    //list na posicao onde foi adicionado recebe true
+                    list[pont] = true;
+                    //anda com o ponteiro
+                    if (pont == (list.Length-1))
+                    {
+                        pont = 0;
+                    }
+                    else
+                    {
+                        pont++;
+                    }
                 }
             }
         }        
