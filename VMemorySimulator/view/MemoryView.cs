@@ -22,18 +22,20 @@ namespace VMemorySimulator.view
         {
             foreach(Label block in blocks)
             {
-                block.ForeColor = System.Drawing.Color.Black;            
+                block.ForeColor = System.Drawing.Color.Black;
+                block.BackColor = System.Drawing.Color.White;          
             }
         }
 
-        public void insertPage(int frameNumber, string nameOfProcess, int PageNumber)
+        public void insertPage(int frameNumber, string nameOfProcess, int PageNumber, bool isSwap)
         {
             this.blocks[frameNumber].Text = nameOfProcess + "\n\n" + PageNumber;
             blocks[frameNumber].ForeColor = System.Drawing.Color.Red;
-            
+            if (isSwap)
+                blocks[frameNumber].BackColor = System.Drawing.Color.LightGreen;
         }
 
-        public void readjust(Memory mem)
+        public void setMemory(Memory mem)
         {
             this.mem = mem;
             this.Controls.Clear();

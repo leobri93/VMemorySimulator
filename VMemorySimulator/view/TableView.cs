@@ -12,12 +12,16 @@ namespace VMemorySimulator.view
     {
         public TableView()
         {
+}
 
+        public void registerSwap(string newProcess, int newPageNumber, string process, int PageNumber)
+        {
+            ((ListView)TabPages[0].Controls[0]).Items.Add(newProcess + newPageNumber + process + PageNumber);
         }
 
         public void addProcess(Process process)
         {
-            TabPage tabpage = new TabPage();
+            /*TabPage tabpage = new TabPage();
             tabpage.Text = process.name;
 
             ListView tabela = new ListView();
@@ -53,7 +57,7 @@ namespace VMemorySimulator.view
             tabpage.Controls.Add(tabela);
 
             this.TabPages.Add(tabpage);
-
+            */
         }
 
 

@@ -25,6 +25,12 @@ namespace VMemorySimulator.model
 
         public Clock clock;
 
+
+        public MemoryManager()
+        {
+            LRU.history = new List<string>();
+        }
+
         public Process getProcessByName(string nameOfProcess)
         {
             foreach (Process p in _processes)
@@ -34,7 +40,6 @@ namespace VMemorySimulator.model
             }
             return null;
         }
-
 
         public void createProcess(string nameOfProcess, int size)
         {
@@ -91,9 +96,9 @@ namespace VMemorySimulator.model
                         }
                        
 
-                        p.tab.insertPageInMemory(i, free_frame); //INSERINDO NA TABELA
+                        p.insertPageInPrimaryMemory(i, free_frame); //INSERINDO NA TABELA
                         _pmem.add(free_frame); //RESERVANDO FRAME NA MEMORIA PRINCIPAL
-                        this._pmem.view.insertPage(free_frame, p.name, i); //Atualiza a view 
+                        this._pmem.view.insertPage(free_frame, p.name, i,false); //Atualiza a view 
 
                     }
                 }
@@ -109,9 +114,9 @@ namespace VMemorySimulator.model
 
                     else
                     {
-                        p.tab.insertPageInSecondaryMemory(i, free_frame); //Insere na Tabela de Páginas
+                        p.insertPageInSecondaryMemory(i, free_frame); //Insere na Tabela de Páginas
                         _smem.add(free_frame); //Reserva o Frame na MP
-                        this._smem.view.insertPage(free_frame, p.name, i); //Atualiza a View                       
+                        this._smem.view.insertPage(free_frame, p.name, i,false); //Atualiza a View                       
                     }
                 }
                 #endregion
@@ -123,112 +128,114 @@ namespace VMemorySimulator.model
             this.tableView.addProcess(p);
         }
 
-
         public void read(string nameOfProcess, int logicAddress)
         {
-            this._pmem.view.reset();
-            this._smem.view.reset();
 
-            foreach (Process p in _processes)
+            #region Reset nas Views das Memórias
+            _pmem.resetView();
+            _smem.resetView();
+            #endregion
+
+            Process process = getProcessByName(nameOfProcess);
+
+            if(process == null)
+                throw new Exception("Process Not Found");
+
+            int pageNumber = getPageNumber(logicAddress);
+
+            try
             {
-                if(p.name == nameOfProcess)
+                int frameNumber = process.getFrameNumberInPrimaryMemory(pageNumber);
+            }
+            catch (Exception e)
+            {
+                switch(e.Message)
                 {
-                    int pageNumber = getPageNumber(logicAddress);
-                    try {
-                        int frameNumber = p.tab.getFrameNumber(pageNumber);
-                        //SWAP ENTRE MEMORIAS
-                        execute();
-                    }
-                    catch (Exception e)
-                    {
-                        //Atualiza a tabela de paginas
-                        switch (policy)
-                        {
-                            case (int)SubstitutionPolicy.LRU:
-                                LRU.treatPageFault(this, p, pageNumber);
-                                break;
-                            case (int)SubstitutionPolicy.Clock:
-                                clock.treatPageFault(this, p, pageNumber);
-                                break;
-                        }
-                        //SWAP ENTRE MEMORIAS
-                        execute();
-                    }
-                    this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
+                    case "Page Fault":
                     switch (policy)
                     {
                         case (int)SubstitutionPolicy.LRU:
-                            LRU.refresh(p, pageNumber);
+                            LRU.treatPageFault(this, process, pageNumber);
                             break;
                         case (int)SubstitutionPolicy.Clock:
-                            clock.refresh(p, pageNumber);
+                            clock.treatPageFault(this, process, pageNumber);
                             break;
                     }
-                    
-                    return;
+                    break;
+                    default:
+                        throw e;                       
                 }
             }
 
-            throw new Exception("ProcessNotFound");
+            process.read(pageNumber);
+
+            this._pmem.view.insertPage(process.getFrameNumberInPrimaryMemory(pageNumber), process.name, pageNumber, false);
+
+            switch (policy)
+            {
+                case (int)SubstitutionPolicy.LRU:
+                    LRU.refresh(process, pageNumber);
+                    break;
+                case (int)SubstitutionPolicy.Clock:
+                    clock.refresh(process, pageNumber);
+                    break;
+            }
         }
-
-        public void execute()
-        {
-
-        }
-
+      
         public void write(string nameOfProcess, int logicAddress)
         {
-            this._pmem.view.reset();
-            this._smem.view.reset();
 
-            foreach (Process p in _processes)
+            #region Reset nas Views das Memórias
+            _pmem.resetView();
+            _smem.resetView();
+            #endregion
+
+            Process process = getProcessByName(nameOfProcess);
+
+            if (process == null)
+                throw new Exception("Process Not Found");
+
+            int pageNumber = getPageNumber(logicAddress);
+
+            try
             {
-                if (p.name == nameOfProcess)
+                int frameNumber = process.getFrameNumberInPrimaryMemory(pageNumber);
+            }
+            catch (Exception e)
+            {
+                switch (e.Message)
                 {
-                    int pageNumber = getPageNumber(logicAddress);
-                    try
-                    {
-                        int frameNumber = p.tab.getFrameNumber(pageNumber);
-                        //SWAP ENTRE MEMORIAS
-                        execute();
-                    }
-                    catch (Exception e)
-                    {
-                        //Atualiza a tabela de paginas
+                    case "Page Fault":
                         switch (policy)
                         {
                             case (int)SubstitutionPolicy.LRU:
-                                LRU.treatPageFault(this, p, pageNumber);
+                                LRU.treatPageFault(this, process, pageNumber);
                                 break;
                             case (int)SubstitutionPolicy.Clock:
-                                clock.treatPageFault(this, p, pageNumber);
+                                clock.treatPageFault(this, process, pageNumber);
                                 break;
                         }
-                        //SWAP ENTRE MEMORIAS
-                        execute();
-                    }
-                    this._pmem.view.insertPage(p.tab.getFrameNumber(pageNumber), p.name, pageNumber); //Atualiza a view 
-                    switch (policy)
-                    {
-                        case (int)SubstitutionPolicy.LRU:
-                            LRU.refresh(p, pageNumber);
-                            break;
-                        case (int)SubstitutionPolicy.Clock:
-                            clock.refresh(p, pageNumber);
-                            break;
-                    }
-                    return;
+                        break;
+                    default:
+                        throw e;
                 }
             }
 
-            throw new Exception("ProcessNotFound");
+            process.write(pageNumber);
+
+            this._pmem.view.insertPage(process.getFrameNumberInPrimaryMemory(pageNumber), process.name, pageNumber, false);
+
+            switch (policy)
+            {
+                case (int)SubstitutionPolicy.LRU:
+                    LRU.refresh(process, pageNumber);
+                    break;
+                case (int)SubstitutionPolicy.Clock:
+                    clock.refresh(process, pageNumber);
+                    break;
+            }
         }
 
-        private void executeWrite()
-        {
-            //throw new NotImplementedException();
-        }
 
         public int getPageNumber(int logicAddress)
         {
@@ -239,14 +246,5 @@ namespace VMemorySimulator.model
         {
             return logicAddress % sizeOfPage;
         }
-
-        public Process getProcess(string name)
-        {
-            foreach (Process p in _processes)
-                if (p.name == name)
-                    return p;
-            return null;
-        }
-
     }
 }

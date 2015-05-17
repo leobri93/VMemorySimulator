@@ -11,7 +11,7 @@ namespace VMemorySimulator.model
     {
         public string name { get; set; }
 
-        public PageTable tab { get; set; }
+        private PageTable tab { get; set; }
 
         public int size;
 
@@ -25,6 +25,38 @@ namespace VMemorySimulator.model
             };
            
         }
+
+        public int getFrameNumberInPrimaryMemory(int pageNumber)
+        {
+            return tab.getFrameNumberInPrimaryMemory(pageNumber);
+        }
+
+        public int getFrameNumberInSecondaryMemory(int pageNumber)
+        {
+            return tab.getFrameNumberInSecondaryMemory(pageNumber);
+        }
+
+
+        public void write(int pageNumber)
+        {
+            tab.setModification(pageNumber);
+        }
+
+        public void insertPageInSecondaryMemory(int process_pageNumber, int newFrame)
+        {
+            tab.insertPageInSecondaryMemory(process_pageNumber, newFrame);
+            
+        }
+        public void insertPageInPrimaryMemory(int process_pageNumber, int newFrame)
+        {
+            tab.insertPageInMemory(process_pageNumber, newFrame);
+        }
+
+        public void read(int pageNumber)
+        {
+
+        }
+
     }
 }
    

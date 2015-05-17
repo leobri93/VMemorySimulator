@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VMemorySimulator.view;
 
 namespace VMemorySimulator.model
 {
@@ -12,6 +13,8 @@ namespace VMemorySimulator.model
         private bool[] M;
         private int[] frame;
 
+        public TableView view;
+
         public PageTable(int size)
         {
             V = new bool[size];
@@ -19,7 +22,7 @@ namespace VMemorySimulator.model
             frame = new int[size];
         }
 
-        public int getFrameNumber(int PageNumber)
+        public int getFrameNumberInPrimaryMemory(int PageNumber)
         {
             if (V[PageNumber] == false)
                 throw new Exception("Page Fault");
@@ -42,6 +45,11 @@ namespace VMemorySimulator.model
         public bool getModification(int PageNumber)
         {
             return M[PageNumber];
+        }
+
+        public void setModification(int pageNumber)
+        {
+            M[pageNumber] = true;
         }
 
         public void insertPageInMemory(int PageNumber, int FrameNumber)

@@ -60,6 +60,8 @@
             this.tableView1 = new VMemorySimulator.view.TableView();
             this.memoryView2 = new VMemorySimulator.view.MemoryView();
             this.memoryView1 = new VMemorySimulator.view.MemoryView();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableView1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -316,6 +318,7 @@
             // 
             // tableView1
             // 
+            this.tableView1.Controls.Add(this.tabPage1);
             this.tableView1.Location = new System.Drawing.Point(15, 439);
             this.tableView1.Name = "tableView1";
             this.tableView1.SelectedIndex = 0;
@@ -337,6 +340,15 @@
             this.memoryView1.Name = "memoryView1";
             this.memoryView1.Size = new System.Drawing.Size(408, 70);
             this.memoryView1.TabIndex = 25;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(400, 129);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Swap Trace";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -373,6 +385,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Virtual Memory Simulator";
+            this.tableView1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,6 +425,7 @@
         private System.Windows.Forms.Label label14;
         private view.MemoryView memoryView2;
         private view.TableView tableView1;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }
 

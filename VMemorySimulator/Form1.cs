@@ -39,23 +39,25 @@ namespace VMemorySimulator
                 }   
                 MessageBox.Show("Script Imported Successfuly!","Script Importer",MessageBoxButtons.OK,MessageBoxIcon.Information);
 
-                sr.Close();        
+                sr.Close();
+
+                resetMemoryManager();
+
+                #region Configuração Enable/Disable dos Componentes Ready for Execute
+                button2.Enabled = true;
+                button3.Enabled = true;
+                t_page.Enabled = false;
+                t_pi.Enabled = false;
+                t_la.Enabled = false;
+                t_pm.Enabled = false;
+                t_sm.Enabled = false;
+                textBox6.Enabled = false;
+                comboBox1.Enabled = false;
+                #endregion
+
             }
             #endregion
 
-            resetMemoryManager();
-
-            #region Configuração Enable/Disable dos Componentes Ready for Execute
-            button2.Enabled = true;
-            button3.Enabled = true;
-            t_page.Enabled = false;
-            t_pi.Enabled = false;
-            t_la.Enabled = false;
-            t_pm.Enabled = false;
-            t_sm.Enabled = false;
-            textBox6.Enabled = false;
-            comboBox1.Enabled = false;
-            #endregion
 
         }
 
@@ -95,12 +97,6 @@ namespace VMemorySimulator
                 clock = new Clock(Int32.Parse(t_pm.Text)),
                 policy = comboBox1.SelectedIndex,
             };
-
-            LRU.history = new List<string>();
-
-            manager._pmem.view.readjust(manager._pmem);
-            manager._smem.view.readjust(manager._smem);
-
         }
     }
 }

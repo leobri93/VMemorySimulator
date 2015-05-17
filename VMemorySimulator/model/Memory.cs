@@ -22,10 +22,19 @@ namespace VMemorySimulator.model
 
         public static Memory create(int numOfPages, MemoryView v)
         {
-            return new Memory(numOfPages)
+            Memory mem = new Memory(numOfPages)
             {
-                view = v
+                view = v,
+
             };
+            v.setMemory(mem);
+
+            return mem;
+        }
+
+        public void resetView()
+        {
+            view.reset();
         }
 
         public void add(int frame)
@@ -39,6 +48,14 @@ namespace VMemorySimulator.model
                 if (pages[i].free == true)
                     return i;
             return -1;
+        }
+
+        public bool isFull()
+        {
+            for (int i = 0; i < pages.Length; i++)
+                if (pages[i].free == true)
+                    return false;
+            return true;
         }
 
         public void free(int frame)
