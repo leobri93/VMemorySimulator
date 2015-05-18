@@ -86,16 +86,33 @@ namespace VMemorySimulator.model
                 //verificar se a posicao no historico existe
                 if (history[pont] != null)
                 {
+                    Process old_process = mgr.getProcessByName(history[pont].Split('_')[0]);
+                    int old_pageNumber = Int32.Parse(history[pont].Split('_')[1]);
+
+
+                    
+
+                    
                     //remove do historico naquela posicao
                     history[pont] = null;
 
                     //O ITEM QUE FOI REMOVIDO DO HISTORICO SAI DA MEMORIA PRINCIPAL E VAI PARA A SECUNDARIA
+                    if (mgr._smem.isFull())
+                        mgr._smem.free(p.getFrameNumberInSecondaryMemory(pageNumber));
+
+                    int frame = mgr._smem.getFreeFrame();
+                    old_process.insertPageInSecondaryMemory(old_pageNumber, frame);
+
+                    mgr._smem.view.insertPage(frame, old_process.name, old_pageNumber, true);
+                    mgr._smem.add(frame);
+
 
                     //inserindo o novo process_page no lugar do historico onde foi removido o anterior
                     history[pont] = process_page;
 
                     //INSERIR O NOVO ITEM NA MEMORIA PRINCIPAL(tabela de paginas)
-                    //ATUALIZAR A VIEW
+                    p.insertPageInPrimaryMemory(pageNumber, pont);
+                    mgr._pmem.view.insertPage(pont, p.name, pageNumber, true); //Atualiza a view 
 
                     //list na posicao onde foi adicionado recebe true
                     list[pont] = true;
@@ -115,7 +132,8 @@ namespace VMemorySimulator.model
                     history[pont] = process_page;
 
                     //INSERIR NA MEMORIA PRINCIPAL(tabela de paginas)
-                    //ATUALIZAR A VIEW
+                    p.insertPageInPrimaryMemory(pageNumber, pont);
+                    mgr._pmem.view.insertPage(pont, p.name, pageNumber, true); //Atualiza a view 
 
                     //list na posicao onde foi adicionado recebe true
                     list[pont] = true;
@@ -133,3 +151,4 @@ namespace VMemorySimulator.model
         }
     }
 }
+

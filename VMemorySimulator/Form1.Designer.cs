@@ -47,7 +47,6 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.listScript = new System.Windows.Forms.ListView();
@@ -226,23 +225,13 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(132, 204);
+            this.button2.Location = new System.Drawing.Point(133, 204);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(61, 33);
+            this.button2.Size = new System.Drawing.Size(124, 33);
             this.button2.TabIndex = 18;
             this.button2.Text = "Run";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(199, 204);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(58, 33);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Save";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -351,7 +340,6 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.listScript);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox6);
@@ -399,7 +387,6 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ListView listScript;

@@ -45,7 +45,6 @@ namespace VMemorySimulator
 
                 #region Configuração Enable/Disable dos Componentes Ready for Execute
                 button2.Enabled = true;
-                button3.Enabled = true;
                 t_page.Enabled = false;
                 t_pi.Enabled = false;
                 t_la.Enabled = false;
@@ -80,8 +79,11 @@ namespace VMemorySimulator
                 resetMemoryManager();
                 listScript.Items[step-1].BackColor = Color.White;
                 step = 0;
+                tableView1.TabPages.Clear();
+                
+                
             }
-            
+
         }
 
         public void resetMemoryManager()
