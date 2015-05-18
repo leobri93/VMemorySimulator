@@ -64,13 +64,17 @@ namespace VMemorySimulator
         {
 
             #region Atualização das Cores na ListView do Script
-            ListViewItem instruction = listScript.Items[step++];
-            instruction.BackColor = System.Drawing.Color.Yellow;
+            try
+            {
+                ListViewItem instruction = listScript.Items[step++];
+                instruction.BackColor = System.Drawing.Color.Yellow;
+            
+                
             if(step > 1)
                 listScript.Items[step - 2].BackColor = Color.White;
             #endregion
 
-            try {
+            
                 ScriptRunner.Run(instruction, manager);
             }
             catch(Exception ex)
