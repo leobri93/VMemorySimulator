@@ -11,7 +11,7 @@ namespace VMemorySimulator.model
     {
         public bool[] list; //lista de utilizados
         public int pont = 0; //ponteiro
-        public string[] history; 
+        public string[] history;
         public Clock(int tamanho_memoria)
         {
             list = new bool[tamanho_memoria];
@@ -38,23 +38,23 @@ namespace VMemorySimulator.model
                 {
                     cont++;
                 }
-                
+
             }
-            
-            
+
+
         }
 
 
         public void treatPageFault(MemoryManager mgr, Process p, int pageNumber)
         {
             string process_page = p.name + "_" + pageNumber;
-            
+
             //enquato o frame estiver utilizado
             while (list[pont] == true)
             {
-                
+
                 //percorrendo historico de process+page
-                foreach (string item in history )
+                foreach (string item in history)
                 {
                     //verifica se item atual é igual a process_page
                     if (item == process_page)
@@ -77,20 +77,20 @@ namespace VMemorySimulator.model
                         }
                     }
                 }
-             
-               
+
+
             }
             //insere na tabela de paginas
-            if (list[pont] == false )
+            if (list[pont] == false)
             {
                 //verificar se a posicao no historico existe
                 if (history[pont] != null)
                 {
                     //remove do historico naquela posicao
                     history[pont] = null;
-                    
+
                     //O ITEM QUE FOI REMOVIDO DO HISTORICO SAI DA MEMORIA PRINCIPAL E VAI PARA A SECUNDARIA
-                   
+
                     //inserindo o novo process_page no lugar do historico onde foi removido o anterior
                     history[pont] = process_page;
 
@@ -100,14 +100,14 @@ namespace VMemorySimulator.model
                     //list na posicao onde foi adicionado recebe true
                     list[pont] = true;
                     //anda com o ponteiro
-                     if (pont == (list.Length-1))
-                     {
-                         pont = 0;
-                     }
-                     else
-                     {
-                         pont++;
-                     }
+                    if (pont == (list.Length - 1))
+                    {
+                        pont = 0;
+                    }
+                    else
+                    {
+                        pont++;
+                    }
                 }
                 else
                 {
@@ -120,7 +120,7 @@ namespace VMemorySimulator.model
                     //list na posicao onde foi adicionado recebe true
                     list[pont] = true;
                     //anda com o ponteiro
-                    if (pont == (list.Length-1))
+                    if (pont == (list.Length - 1))
                     {
                         pont = 0;
                     }
@@ -130,6 +130,6 @@ namespace VMemorySimulator.model
                     }
                 }
             }
-        }        
+        }
     }
 }
