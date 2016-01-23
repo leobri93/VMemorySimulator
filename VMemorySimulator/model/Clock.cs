@@ -48,11 +48,12 @@ namespace VMemorySimulator.model
         public void treatPageFault(MemoryManager mgr, Process p, int pageNumber)
         {
             string process_page = p.name + "_" + pageNumber;
-
+            
+            
             //enquato o frame estiver utilizado
             while (list[pont] == true)
             {
-
+                //caso em que a tabela de paginas está cheia e o ponteiro está em um frame que foi modificado
                 //percorrendo historico de process+page
                 foreach (string item in history)
                 {
@@ -126,6 +127,7 @@ namespace VMemorySimulator.model
                         pont++;
                     }
                 }
+                //Quando ainda tem espaço vazio na tabela de paginas
                 else
                 {
                     //inserindo o novo process_page no lugar do historico onde foi removido o anterior

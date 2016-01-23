@@ -21,11 +21,12 @@ namespace VMemorySimulator.model
             history.Add(newProcess.name + "_" + newProcess_pageNumber);
 
             if(mgr._smem.isFull())
+                //Remove newProcess_pageNumber da memoria secundaria 
                 mgr._smem.free(newProcess.getFrameNumberInSecondaryMemory(newProcess_pageNumber));
 
-
+            //Remove o process_pageNumber menos usado da memoria principal 
             int frame = process.getFrameNumberInPrimaryMemory(process_pageNumber);
-
+            //Faz um swap dos processos nas memorias principal e secundaria
             int newFrame = mgr._smem.getFreeFrame();
             process.insertPageInSecondaryMemory(process_pageNumber, newFrame);
 
